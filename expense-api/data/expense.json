@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "title": "Gaji Bulan February",
+    "nominal": 1000000,
+    "type": "income",
+    "category": "salary",
+    "date": "2025-02-01"
+  },
+  {
+    "id": 3,
+    "title": "Beli Nasi Padang",
+    "nominal": 20000,
+    "type": "expense",
+    "category": "food",
+    "date": "2025-02-02"
+  },
+  {
+    "id": 4,
+    "title": "Beli Bensin",
+    "nominal": 20000,
+    "type": "expense",
+    "category": "transport",
+    "date": "2025-02-03"
+  },
+  {
+    "id": 5,
+    "title": "Beli Tiket Kereta",
+    "nominal": 50000,
+    "type": "expense",
+    "category": "transport",
+    "date": "2025-02-04"
+  }
+]
