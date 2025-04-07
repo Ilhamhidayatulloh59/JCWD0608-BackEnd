@@ -6,7 +6,9 @@ export class UserController {
   async createUser(req: Request, res: Response) {
     try {
       const { email, password, username, fullname } = req.body;
-      await prisma.user.create({ data: { email, password, username, fullname } });
+      await prisma.user.create({
+        data: { email, password, username, fullname },
+      });
 
       res.status(201).send({ message: "User created ✅" });
     } catch (err) {
@@ -64,9 +66,8 @@ export class UserController {
 
   async updateUser(req: Request, res: Response) {
     try {
-      const { id } = req.params;
       const data: Prisma.UserUpdateInput = req.body;
-      await prisma.user.update({ where: { id: +id }, data });
+      await prisma.user.update({ where: { id: req.user?.id }, data });
 
       res.status(200).send({
         message: "User updated ✅",
@@ -93,9 +94,8 @@ export class UserController {
 
   async getUserPost(req: Request, res: Response) {
     try {
-      const { id } = req.params;
       const user = await prisma.user.findUnique({
-        where: { id: +id },
+        where: { id: req.user?.id },
         include: { Post: true },
       });
 
