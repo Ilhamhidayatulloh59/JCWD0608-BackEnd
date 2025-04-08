@@ -7,18 +7,19 @@ export class PostController {
       const posts = await prisma.post.findMany({
         // include: { user: true },
         select: {
-            id: true,
-            imageUrl: true,
-            caption: true,
-            createdAt: true,
-            updatedAt: true,
-            user: {
-                select: {
-                    username: true,
-                    email: true,
-                }
-            }
-        }
+          id: true,
+          imageUrl: true,
+          caption: true,
+          createdAt: true,
+          updatedAt: true,
+          user: {
+            select: {
+              username: true,
+              email: true,
+              avatar: true,
+            },
+          },
+        },
       });
 
       res.status(200).send({

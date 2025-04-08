@@ -25,7 +25,6 @@ export class UserRouter {
       this.authMiddleware.verifyToken,
       this.userController.getUserPost
     );
-    this.router.post("/", this.userController.createUser);
     this.router.patch(
       "/",
       this.authMiddleware.verifyToken,

@@ -3,19 +3,6 @@ import prisma from "../prisma";
 import { Prisma } from "../../prisma/generated/client";
 
 export class UserController {
-  async createUser(req: Request, res: Response) {
-    try {
-      const { email, password, username, fullname } = req.body;
-      await prisma.user.create({
-        data: { email, password, username, fullname },
-      });
-
-      res.status(201).send({ message: "User created ✅" });
-    } catch (err) {
-      console.log(err);
-      res.status(400).send(err);
-    }
-  }
   async getUser(req: Request, res: Response) {
     try {
       const { search } = req.query;

@@ -33,7 +33,7 @@ export class AuthController {
 
       const payload = { id: user.id, role: "user" };
       const access_token = sign(payload, process.env.KEY_JWT!, {
-        expiresIn: "10m",
+        expiresIn: "1h",
       });
 
       res.status(200).send({
