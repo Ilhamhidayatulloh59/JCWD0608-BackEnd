@@ -20,13 +20,32 @@ export class PostController {
               avatar: true,
             },
           },
+          _count: {
+            select: {
+              Like: true,
+            },
+          },
         },
         orderBy: { createdAt: "desc" },
       });
 
+      const userLike = await prisma.like.findMany({
+        where: { userId: req.user?.id },
+      });
+
+      const likedPost = new Set(userLike.map((item) => item.postId));
+
+      const result = posts.map((post) => {
+        return {
+          ...post,
+          liked: likedPost.has(post.id),
+          likeCount: post._count.Like,
+        };
+      });
+
       res.status(200).send({
         message: "Data Post",
-        posts,
+        posts: result,
       });
     } catch (err) {
       console.log(err);
@@ -67,6 +86,46 @@ export class PostController {
         message: "Post created",
         secure_url,
       });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  }
+
+  async likePost(req: Request, res: Response) {
+    try {
+      const { postId } = req.body;
+
+      const isLike = await prisma.like.findUnique({
+        where: {
+          postId_userId: {
+            postId,
+            userId: req.user?.id!,
+          },
+        },
+      });
+
+      if (isLike) {
+        // unlike
+        await prisma.like.delete({
+          where: {
+            postId_userId: {
+              postId,
+              userId: req.user?.id!,
+            },
+          },
+        });
+        res.status(200).send({ liked: false });
+      } else {
+        // like
+        await prisma.like.create({
+          data: {
+            postId,
+            userId: req.user?.id!,
+          },
+        });
+        res.status(200).send({ liked: true });
+      }
     } catch (err) {
       console.log(err);
       res.status(400).send(err);
