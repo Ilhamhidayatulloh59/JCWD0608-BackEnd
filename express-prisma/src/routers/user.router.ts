@@ -20,6 +20,7 @@ export class UserRouter {
       this.authMiddleware.verifyToken,
       this.userController.getUser
     );
+    this.router.get("/redis", this.userController.getUserRedis);
     this.router.get(
       "/post",
       this.authMiddleware.verifyToken,
@@ -32,7 +33,7 @@ export class UserRouter {
     );
 
     this.router.get("/:id", this.userController.getUserId);
-    
+
     this.router.delete(
       "/:id",
       this.authMiddleware.verifyToken,

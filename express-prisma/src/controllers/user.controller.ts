@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
 import { Prisma } from "../../prisma/generated/client";
+import logger from "../helpers/logger";
+import { redis } from "../helpers/redis";
 
 export class UserController {
   async getUser(req: Request, res: Response) {
@@ -41,12 +43,16 @@ export class UserController {
       const { id } = req.params;
       const user = await prisma.user.findUnique({ where: { id: +id } });
 
+      if (!user) throw { message: "User not found" };
+
       res.status(200).send({
         message: "User detail",
         user,
       });
+      // logger.info()
+      // logger.warn()
     } catch (err) {
-      console.log(err);
+      logger.error(err);
       res.status(400).send(err);
     }
   }
@@ -87,6 +93,23 @@ export class UserController {
       });
 
       res.status(200).send({ user });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  }
+
+  async getUserRedis(req: Request, res: Response) {
+    try {
+      const redisData = await redis.get("users");
+      if (redisData) {
+        res.status(200).send({ users: JSON.parse(redisData) });
+        return;
+      }
+
+      const users = await prisma.user.findMany();
+      await redis.setex("users", 60, JSON.stringify(users));
+      res.status(200).send({ users });
     } catch (err) {
       console.log(err);
       res.status(400).send(err);
