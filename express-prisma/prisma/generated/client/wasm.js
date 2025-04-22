@@ -145,6 +145,38 @@ exports.Prisma.LikeScalarFieldEnum = {
   cretedAt: 'cretedAt'
 };
 
+exports.Prisma.EventScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TicketScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  category: 'category',
+  price: 'price',
+  quota: 'quota',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  ticketId: 'ticketId',
+  qty: 'qty',
+  amount: 'amount',
+  status: 'status',
+  invoiceUrl: 'invoiceUrl',
+  expiredAt: 'expiredAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -159,12 +191,20 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.StatusOrder = exports.$Enums.StatusOrder = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  EXPIRED: 'EXPIRED',
+  CANCEL: 'CANCEL'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
   Post: 'Post',
-  Like: 'Like'
+  Like: 'Like',
+  Event: 'Event',
+  Ticket: 'Ticket',
+  Order: 'Order'
 };
 
 /**

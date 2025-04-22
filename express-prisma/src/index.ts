@@ -5,6 +5,7 @@ import cors from "cors";
 import { AuthRouter } from "./routers/auth.router";
 import path from "path";
 import cron from "node-cron";
+import { OrderRouter } from "./routers/order.router";
 
 const PORT: number = 8000;
 
@@ -26,6 +27,9 @@ app.use("/api/posts", postRouter.getRouter());
 
 const authRouter = new AuthRouter();
 app.use("/api/auth", authRouter.getRouter());
+
+const orderRouter = new OrderRouter();
+app.use("/api/orders", orderRouter.getRouter());
 
 // scheduler
 // cron.schedule("0 7 * * 6,0", () => {

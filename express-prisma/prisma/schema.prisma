@@ -22,6 +22,8 @@ model User {
   updatedAt DateTime @updatedAt
   Post      Post[]
   Like      Like[]
+  Order     Order[]
+  Event     Event[]
 }
 
 model Post {
@@ -44,4 +46,52 @@ model Like {
   post Post @relation(fields: [postId], references: [id])
 
   @@id([postId, userId])
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  userId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user   User     @relation(fields: [userId], references: [id])
+  Ticket Ticket[]
+}
+
+model Ticket {
+  id        String   @id @default(uuid())
+  eventId   String
+  category  String
+  price     Int
+  quota     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  event Event   @relation(fields: [eventId], references: [id])
+  Order Order[]
+}
+
+model Order {
+  id         String      @id @default(uuid())
+  userId     Int
+  ticketId   String
+  qty        Int
+  amount     Int
+  status     StatusOrder @default(PENDING)
+  invoiceUrl String?
+  expiredAt  DateTime
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  ticket Ticket @relation(fields: [ticketId], references: [id])
+}
+
+enum StatusOrder {
+  PENDING
+  PAID
+  EXPIRED
+  CANCEL
 }
