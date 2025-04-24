@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const prisma_1 = __importDefault(require("../prisma"));
-const logger_1 = __importDefault(require("../helpers/logger"));
 const redis_1 = require("../helpers/redis");
 class UserController {
     getUser(req, res) {
@@ -59,11 +58,8 @@ class UserController {
                     message: "User detail",
                     user,
                 });
-                // logger.info()
-                // logger.warn()
             }
             catch (err) {
-                logger_1.default.error(err);
                 res.status(400).send(err);
             }
         });

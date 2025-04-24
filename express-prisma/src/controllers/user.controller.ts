@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
 import { Prisma } from "../../prisma/generated/client";
-import logger from "../helpers/logger";
 import { redis } from "../helpers/redis";
 
 export class UserController {
@@ -49,10 +48,7 @@ export class UserController {
         message: "User detail",
         user,
       });
-      // logger.info()
-      // logger.warn()
     } catch (err) {
-      logger.error(err);
       res.status(400).send(err);
     }
   }
