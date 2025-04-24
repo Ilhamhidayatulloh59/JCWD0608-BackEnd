@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const prisma_1 = __importDefault(require("../prisma"));
-const redis_1 = require("../helpers/redis");
+// import { redis } from "../helpers/redis";
 class UserController {
     getUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -114,13 +114,13 @@ class UserController {
     getUserRedis(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const redisData = yield redis_1.redis.get("users");
-                if (redisData) {
-                    res.status(200).send({ users: JSON.parse(redisData) });
-                    return;
-                }
+                // const redisData = await redis.get("users");
+                // if (redisData) {
+                //   res.status(200).send({ users: JSON.parse(redisData) });
+                //   return;
+                // }
                 const users = yield prisma_1.default.user.findMany();
-                yield redis_1.redis.setex("users", 60, JSON.stringify(users));
+                // await redis.setex("users", 60, JSON.stringify(users));
                 res.status(200).send({ users });
             }
             catch (err) {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
 import { Prisma } from "../../prisma/generated/client";
-import { redis } from "../helpers/redis";
+// import { redis } from "../helpers/redis";
 
 export class UserController {
   async getUser(req: Request, res: Response) {
@@ -97,14 +97,14 @@ export class UserController {
 
   async getUserRedis(req: Request, res: Response) {
     try {
-      const redisData = await redis.get("users");
-      if (redisData) {
-        res.status(200).send({ users: JSON.parse(redisData) });
-        return;
-      }
+      // const redisData = await redis.get("users");
+      // if (redisData) {
+      //   res.status(200).send({ users: JSON.parse(redisData) });
+      //   return;
+      // }
 
       const users = await prisma.user.findMany();
-      await redis.setex("users", 60, JSON.stringify(users));
+      // await redis.setex("users", 60, JSON.stringify(users));
       res.status(200).send({ users });
     } catch (err) {
       console.log(err);
